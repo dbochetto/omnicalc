@@ -150,17 +150,20 @@ lst1 = count2(@numbers)
 
 #this next function then performs analysis on the hash created in the previous function
 
-# def count3(var1)
-# maxim = 0
-# var1.each do |y,z|
-       # if var1[y] > maxim
-        #    maxim = var1[y]
-        #else
-         #   maxim = maxim
-        #end
-    #end
- #return maxim
-#end
+def count3(var1)
+maxim = 0
+maxim_key = nil
+var1.each do |y,z|
+       if var1[y] > maxim
+           maxim = var1[y]
+           maxim_key = y
+        else
+        maxim = maxim
+        maxim_key = maxim_key
+        end
+    end
+ return maxim_key
+end
 
 
 x = @numbers.length
@@ -193,7 +196,7 @@ end
 
     @standard_deviation = @variance**(0.5)
 
-    @mode = "This isn't working"
+    @mode = count3(lst1)
 
     # ================================================================================
     # Your code goes above.
