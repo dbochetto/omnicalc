@@ -10,14 +10,32 @@ class CalculationsController < ApplicationController
     # The special word the user input is in the string @special_word.
     # ================================================================================
 
+def count1(strng)
+    strng.gsub(/[!?@.,;:"'+-='"$@&]/, "")
+    lst = strng.downcase.split(" ")
+    words = {}
+    lst.each do |x|
+        if words.has_key?(x) == false
+            words[x] = 1
+        else
+            words[x] = words[x] + 1
+        end
+    end
+    return words
+end
 
-    @character_count_with_spaces = "Replace this string with your answer."
 
-    @character_count_without_spaces = "Replace this string with your answer."
+    @character_count_with_spaces = @text.length
 
-    @word_count = "Replace this string with your answer."
+    @character_count_without_spaces = @text.gsub(" ", "").length
 
-    @occurrences = "Replace this string with your answer."
+    @word_count = @text.split(" ").length
+
+    var1 = count1(@text) 
+
+    @occurrences = var1[(@special_word.downcase)]
+                   
+
 
     # ================================================================================
     # Your code goes above.
@@ -38,7 +56,13 @@ class CalculationsController < ApplicationController
     # The principal value the user input is in the decimal @principal.
     # ================================================================================
 
-    @monthly_payment = "Replace this string with your answer."
+    
+    rate = @apr/100/12
+    months = @years*12
+
+    month_pay = (rate*@principal*(1+rate)**months) / ((1+rate)**months - 1)
+
+    @monthly_payment = month_pay
 
     # ================================================================================
     # Your code goes above.
@@ -60,12 +84,12 @@ class CalculationsController < ApplicationController
     #   number of seconds as a result.
     # ================================================================================
 
-    @seconds = "Replace this string with your answer."
-    @minutes = "Replace this string with your answer."
-    @hours = "Replace this string with your answer."
-    @days = "Replace this string with your answer."
-    @weeks = "Replace this string with your answer."
-    @years = "Replace this string with your answer."
+    @seconds = @ending - @starting
+    @minutes = @seconds / 60
+    @hours = @minutes / 60
+    @days = @hours / 24
+    @weeks = @days / 7
+    @years = @weeks / 52 #how do we deal with leap years??? 
 
     # ================================================================================
     # Your code goes above.
@@ -82,27 +106,94 @@ class CalculationsController < ApplicationController
     # The numbers the user input are in the array @numbers.
     # ================================================================================
 
-    @sorted_numbers = "Replace this string with your answer."
+    def sum_num(lst)
+        total = 0
+        lst.each do |x|
+            total = total + x
+            end 
+        return total
+    end
 
-    @count = "Replace this string with your answer."
+    def variance(lst)
+        total = 0
+        count = lst.length
+        lst.each do |x|
+            total = total + x
+        end
+        std_tot = 0
+        mean = total / count
+        lst.each do |y|
+            std1 = (y-mean)**2
+            std_tot = std_tot + std1
+        end
+        var = std_tot / count
+        return var
+    end
 
-    @minimum = "Replace this string with your answer."
+# the next function makes a hash out of the @numbers array
 
-    @maximum = "Replace this string with your answer."
+def count2(lst)
+words = {}
+    lst.each do |x|
+        if words.has_key?(x) == false
+            words[x] = 1
+        else
+            words[x] = words[x] + 1
+        end
+    end
+    return words
+end
 
-    @range = "Replace this string with your answer."
+# this variable stores the hash into a variable
 
-    @median = "Replace this string with your answer."
+lst1 = count2(@numbers)
 
-    @sum = "Replace this string with your answer."
+#this next function then performs analysis on the hash created in the previous function
 
-    @mean = "Replace this string with your answer."
+# def count3(var1)
+# maxim = 0
+# var1.each do |y,z|
+       # if var1[y] > maxim
+        #    maxim = var1[y]
+        #else
+         #   maxim = maxim
+        #end
+    #end
+ #return maxim
+#end
 
-    @variance = "Replace this string with your answer."
 
-    @standard_deviation = "Replace this string with your answer."
+x = @numbers.length
+y = @numbers.sort
 
-    @mode = "Replace this string with your answer."
+if x.even? == true
+    median = (y[x/2 - 1] + y[x/2]) / 2
+else
+    median = y[(x-1)/2]
+end
+
+
+    @sorted_numbers = y
+
+    @count = x
+
+    @minimum = @sorted_numbers[0]
+
+    @maximum = @sorted_numbers[(@count-1)]
+
+    @range = @maximum - @minimum
+
+    @median = median
+
+    @sum = sum_num(@numbers)
+
+    @mean = @sum / @count
+
+    @variance = variance(@numbers)
+
+    @standard_deviation = @variance**(0.5)
+
+    @mode = "This isn't working"
 
     # ================================================================================
     # Your code goes above.
